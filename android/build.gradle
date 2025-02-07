@@ -11,6 +11,11 @@ buildscript {
         google()
         mavenCentral()
     }
+    configurations.all {
+        resolutionStrategy {
+            force "androidx.core:core:1.13.1"
+        }
+    }
     dependencies {
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
