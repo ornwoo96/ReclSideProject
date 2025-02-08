@@ -10,6 +10,9 @@ export type RootStackParamList = {
 // 탭 네비게이션 타입
 export type RootTabParamList = {
   Home: undefined; // HomeStackNavigator가 들어감
+  Store: undefined;
+  PickupHistory: undefined;
+  MyMenu: undefined;
 };
 
 // 내비게이션 타입 (Stack / Tab 각각 정의)
