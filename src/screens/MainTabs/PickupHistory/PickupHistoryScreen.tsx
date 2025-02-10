@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
-import { StackNavigationProps } from '../navigation/types';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { StackNavigationProps } from '../../../navigation/types';
 
 type PickupHistoryScreenProps = {
     navigation: StackNavigationProps<'MainTabs'>;

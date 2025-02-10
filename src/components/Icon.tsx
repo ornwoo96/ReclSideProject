@@ -14,7 +14,7 @@ export function Icon({ icon, focused, style, containerStyle }: IconProps) {
   return (
     <View style={containerStyle}>
       <Image 
-        source={focused ? iconRegistry[icon].active : iconRegistry[icon].inactive}
+        source={!!focused ? iconRegistry[icon]?.active : iconRegistry[icon]?.inactive}
         style={[defaultStyles.icon, style]} // 기본 스타일 + 커스텀 스타일 적용 가능
         resizeMode="contain"
       />
@@ -25,25 +25,33 @@ export function Icon({ icon, focused, style, containerStyle }: IconProps) {
 // 아이콘 리소스 모음
 const iconRegistry = {
   home: {
-    active: require("../asset/icons/house.fill.png"),
-    inactive: require("../asset/icons/house.png"),
+    active: require("../assets/icons/house.fill.png"),
+    inactive: require("../assets/icons/house.png"),
   },
   store: {
-    active: require("../asset/icons/storefront.fill.png"),
-    inactive: require("../asset/icons/storefront.png"),
+    active: require("../assets/icons/storefront.fill.png"),
+    inactive: require("../assets/icons/storefront.png"),
   },
   pickupHistory: {
-    active: require("../asset/icons/book.pages.fill.png"),
-    inactive: require("../asset/icons/book.pages.png"),
+    active: require("../assets/icons/book.pages.fill.png"),
+    inactive: require("../assets/icons/book.pages.png"),
   },
   myMenu: {
-    active: require("../asset/icons/person.fill.png"),
-    inactive: require("../asset/icons/person.png"),
+    active: require("../assets/icons/person.fill.png"),
+    inactive: require("../assets/icons/person.png"),
   },
   pushAlarm: { 
-    active : require("../asset/icons/btn_activity_new.png"),
-    inactive: require("../asset/icons/btn_activity.png"),
+    active : require("../assets/icons/btn_activity_new.png"),
+    inactive: require("../assets/icons/btn_activity.png"),
   },
+  reclMainIcon: { 
+    active: require("../assets/icons/recl.png"),
+    inactive: require("../assets/icons/recl.png"),
+  },
+  backIcon: { 
+    active: require("../assets/icons/btn_back.png"),
+    inactive: require("../assets/icons/btn_back.png"),
+  }
 }
 
 // 기본 스타일 (marginBottom 제거)

@@ -5,6 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 // 스택 네비게이션 타입
 export type RootStackParamList = {
   MainTabs: undefined;
+  PushNotification: undefined;
 };
 
 // 탭 네비게이션 타입

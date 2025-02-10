@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
-import { StackNavigationProps } from '../navigation/types';
+import { StackNavigationProps } from '../../../navigation/types';
 
 type MyMenuScreenProps = {
     navigation: StackNavigationProps<'MainTabs'>;

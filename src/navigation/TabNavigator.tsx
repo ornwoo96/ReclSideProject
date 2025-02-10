@@ -3,10 +3,13 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { RootTabParamList } from "./types"
 import { Icon } from "../components/Icon.tsx"
-import HomeScreen from "../screens/HomeScreen.tsx"
-import StoreScreen from "../screens/StoreScreen.tsx"
-import PickupHistoryScreen from "../screens/PickupHistoryScreen.tsx"
-import MyMenuScreen from "../screens/MyMenuScreen.tsx"
+import HomeScreen from "../screens/MainTabs/Home/HomeScreen.tsx"
+import StoreScreen from "../screens/MainTabs/Store/StoreScreen.tsx"
+import PickupHistoryScreen from "../screens/MainTabs/PickupHistory/PickupHistoryScreen.tsx"
+import MyMenuScreen from "../screens/MainTabs/MyMenu/MyMenuScreen.tsx"
+import { usePushNotification } from "../hooks/usePushNotification";
+import { generateRandomNotificationMessage } from "../utills/randomNotificationMessage";
+import colors from "../styles/colors.ts";
 
 const Tab = createBottomTabNavigator<RootTabParamList>()
 
@@ -44,9 +47,9 @@ const SCREENS = [
 
 // 중앙 수거 버튼 (탭과 독립적)
 const CenterButton = ({ onPress }: { onPress: () => void }) => (
-  <TouchableOpacity 
-    style={styles.centerButton} 
-    onPress={onPress} 
+  <TouchableOpacity
+    style={styles.centerButton}
+    onPress={onPress}
     activeOpacity={0.8}
   >
     <Text style={styles.centerText}>수거</Text>
@@ -54,10 +57,13 @@ const CenterButton = ({ onPress }: { onPress: () => void }) => (
 )
 
 const TabNavigator = () => {
+  const { triggerNotification } = usePushNotification();
+
   return (
     <>
       <Tab.Navigator
         screenOptions={{
+          headerShown: false,  
           tabBarStyle: styles.tabBar,
           tabBarLabelStyle: styles.label,
           tabBarActiveTintColor: styles.labelFocused.color, // 선택된 탭 색상
@@ -90,7 +96,7 @@ const TabNavigator = () => {
       </Tab.Navigator>
 
       {/* 중앙 버튼 추가 */}
-      <CenterButton onPress={() => console.log("수거 버튼 클릭!")} />
+      <CenterButton onPress={() => {triggerNotification(generateRandomNotificationMessage())}} />
     </>
   )
 }
@@ -103,10 +109,10 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 11,
-    color: "#252525",
+    color: colors.mainGray,
   },
   labelFocused: {
-    color: "#00C6AD",
+    color: colors.primary,
   },
   centerButton: {
     position: "absolute",
@@ -116,7 +122,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
-    backgroundColor: "#00C6AD",
+    backgroundColor: colors.primary,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",
