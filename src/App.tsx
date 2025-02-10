@@ -4,6 +4,7 @@ import { store } from "../src/store";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AppNavigator } from './navigation/AppNavigator';
+import GlobalAlert from "./components/GlobalAlert";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,6 +14,7 @@ export default function App() {
       <NavigationContainer>
           {/* 🚀 기본 탭 네비게이터 */}
           <AppNavigator />
+          <GlobalAlert />
       </NavigationContainer>
     </Provider>
   );
