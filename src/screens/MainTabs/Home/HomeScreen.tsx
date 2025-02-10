@@ -5,6 +5,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StackNavigationProps } from '../../../navigation/types';
 import { configurePushNotification } from "../../../services/local/localPushNotification";
 import colors from "../../../styles/colors";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 type HomeScreenProps = {
     navigation: StackNavigationProps<'MainTabs'>;
@@ -16,6 +18,10 @@ interface HomeNavBarProps {
 
 // 홈 네비게이션 바 컴포넌트 (HomeScreen 내부에서만 사용)
 const HomeNavBar: React.FC<HomeNavBarProps> = ({ onPressRight }) => {
+  const hasUnreadNotifications = useSelector(
+    (state: RootState) => state.pushNotificationListReducer.hasUnreadNotifications
+  );
+
   return (
     <View style={styles.navBar}>
       <Icon 
@@ -25,7 +31,8 @@ const HomeNavBar: React.FC<HomeNavBarProps> = ({ onPressRight }) => {
       <TouchableOpacity onPress={onPressRight}>
         <Icon 
           icon="pushAlarm" 
-          style={styles.navRightItem}  
+          style={styles.navRightItem} 
+          focused={hasUnreadNotifications} 
         />
       </TouchableOpacity>
     </View>

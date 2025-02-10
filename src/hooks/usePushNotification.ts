@@ -1,8 +1,7 @@
 import { useDispatch } from "react-redux";
 import {
-   addPushNotification, 
-   removePushNotification,
-   clearPushNotificationList
+  addPushNotification,
+
 } from "../store/slices/pushNotificationListSlice";
 import { sendLocalNotification } from "../services/local/localPushNotification";
 
@@ -16,19 +15,7 @@ export const usePushNotification = () => {
     sendLocalNotification(msg); // 로컬 푸시 알림 전송
   };
 
-  // 특정 ID의 푸시 알림 삭제
-  const deleteNotification = (id: string) => {
-    dispatch(removePushNotification(id));
-  };
-
-  // 모든 푸시 알림 초기화
-  const clearNotifications = () => {
-    dispatch(clearPushNotificationList());
-  };
-
   return {
     triggerNotification,
-    deleteNotification,
-    clearNotifications,
   };
 };

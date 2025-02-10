@@ -1,16 +1,26 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import uuid from 'react-native-uuid';
-import { getRandomNotificationImage } from "../../utills/randomImage"; // ✅ 랜덤 이미지 가져오기
-import { PushNotificationModel } from "../../models/types";
+import { getRandomNotificationImage } from "../../utills/randomImage";
+import { 
+    PushNotificationModel, 
+    PickupPushNotificationModel, 
+    StorePushNotificationModel
+} from "../../models/types";
 
 // 푸시 알림 리스트 상태 정의 (배열 형태)
 interface PushNotificationListState {
-  notifications: PushNotificationModel[];
+  allNotifications: PushNotificationModel[];
+  pickupNotifications: PickupPushNotificationModel[];
+  storeNotifications: StorePushNotificationModel[];
+  hasUnreadNotifications: boolean; 
 }
 
 // 초기 상태 (빈 리스트)
 const initialState: PushNotificationListState = {
-  notifications: [],
+    allNotifications: [],
+    pickupNotifications: [],
+    storeNotifications: [],
+    hasUnreadNotifications: false,
 };
 
 const pushNotificationListSlice = createSlice({
@@ -19,30 +29,32 @@ const pushNotificationListSlice = createSlice({
   reducers: {
     // 새로운 푸시 알림 아이템 추가
     addPushNotification: (state, action: PayloadAction<string>) => {
-      state.notifications.unshift({
+      state.allNotifications.unshift({
         id: uuid.v4() as string,  // UUID 생성
         message: action.payload,
         timestamp: Date.now(),
-        image: getRandomNotificationImage(),
-        type: "의류 수거" // 임시 사용
+        image: getRandomNotificationImage()
       });
+      state.pickupNotifications.unshift({
+        id: uuid.v4() as string,  // UUID 생성
+        message: action.payload,
+        timestamp: Date.now(),
+        image: getRandomNotificationImage()
+      });
+      state.hasUnreadNotifications = true;
+      console.log(state.hasUnreadNotifications)
     },
 
-    // 특정 ID의 푸시 알림 삭제
-    removePushNotification: (state, action: PayloadAction<string>) => {
-      state.notifications = state.notifications.filter(
-        (notification) => notification.id !== action.payload
-      );
-    },
-
-    // 모든 푸시 알림 초기화
-    clearPushNotificationList: (state) => {
-      state.notifications = [];
+    // 푸시 알림 전체 읽음 표시
+    updatePushNotificationIsRead: (state) => {
+      state.hasUnreadNotifications = false;
     },
   },
 });
 
 // 액션 & 리듀서 내보내기
-export const { addPushNotification, removePushNotification, clearPushNotificationList } =
-  pushNotificationListSlice.actions;
+export const { 
+  addPushNotification, 
+  updatePushNotificationIsRead
+} = pushNotificationListSlice.actions;
 export default pushNotificationListSlice.reducer;
