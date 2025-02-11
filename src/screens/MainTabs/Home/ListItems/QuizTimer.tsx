@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "lightgray",
         backgroundColor: "white",
+        alignSelf: "center",
     },
     quizIcon: {
         width: 27.5,
