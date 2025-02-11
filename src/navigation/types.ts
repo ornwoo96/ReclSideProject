@@ -12,6 +12,7 @@ export type RootStackParamList = {
 export type RootTabParamList = {
   Home: undefined; // HomeStackNavigator가 들어감
   Store: undefined;
+  center: undefined;
   PickupHistory: undefined;
   MyMenu: undefined;
 };
