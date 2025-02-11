@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StackNavigationProps } from '../../../navigation/types';
 import { configurePushNotification } from "../../../services/local/localPushNotification";
 import WelcomeItem from "./ListItems/WelcomeItem";
+import RenewedItem from "./ListItems/RenewdItem"; 
 
 type HomeScreenProps = {
     navigation: StackNavigationProps<'MainTabs'>;
@@ -14,12 +15,18 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     configurePushNotification();
   }, []);
 
-  const listData = [{ type: "welcome", id: "welcome" },];
+  const listData = [
+    { type: "welcome", id: "welcome" },
+    { type: "renewed", id: "renewed" },
+  ];
 
   const renderItem = ({ item }: { item: { type: string; id: string } }) => {
     if (item.type === "welcome") {
       return <WelcomeItem navigation={navigation} />;
     } 
+    if (item.type === "renewed") {
+      return <RenewedItem />;
+    }
     return null;
   };
 
