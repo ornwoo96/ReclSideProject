@@ -1,97 +1,226 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Recl Side Project
 
-# Getting Started
+## 📌 프로젝트 개요
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/ea33de29-7f28-4e0f-aec4-2ce3e05dc7b0" width="300">
+  <img src="https://github.com/user-attachments/assets/1cb5f932-b1ef-42fc-a0a5-892191799c72" width="300">
+</p>
 
-## Step 1: Start Metro
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+이 프로젝트는 리클(ReCl) 앱의 두 가지 새로운 기능을 추가한 사이드 프로젝트입니다.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+React Native CLI 기반으로 개발되었으며, iOS 및 Android에서 동작하도록 구현되었습니다.
 
-```sh
-# Using npm
-npm start
+- 📅 **개발 기간**: 2025.02.06 - 2025.02.11 (4-5일 정도 소요)
+- ⚙️ **개발 환경**:
+  - `Android Studio`: 2024.2.2
+  - `Xcode`: 16.0.0
+  - `React Native CLI`: 15.0.1
+- 🔡 **사용 언어**:
+  - `TypeScript`: 5.0.4
+  - `JavaScript`
+- 🗃️ **패키지 매니저**:
+  - `Yarn`: 1.22.22
+- 🗂️ **주요 라이브러리**:
+  - `react`: 18.3.1
+  - `react-native`: 0.77.0
+  - `react-native-reanimated`: 3.16.7
+  - `react-native-navigation`: 7.0.14
+  - `react-redux`: 9.2.0
+  - `@reduxjs/toolkit`: 2.5.1
+  - `@notifee/react-native`: 9.1.8
 
-# OR using Yarn
-yarn start
+<br>
+<br>
+
+
+## 📂 폴더 구조
+
+```
+📦 ReCl-Side-Project (src)
+├── assets               # 이미지, 아이콘, 폰트 등 정적 리소스
+├── components           # 재사용 가능한 UI 컴포넌트
+├── hooks               # 커스텀 훅 관리
+├── models              # 데이터 모델 및 타입 정의
+├── navigation          # 앱 내비게이션 설정
+├── screens             # 각 화면 컴포넌트
+├── services/local      # 로컬 서비스 (알림 등)
+├── store               # Redux 상태 관리
+├── styles              # 글로벌 스타일 관리
+├── utils               # 유틸리티 함수 모음
+└── App.tsx             # 메인 엔트리 포인트
 ```
 
-## Step 2: Build and run your app
+<br>
+<br>
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
 
-### Android
+## ✅ Redux를 사용한 이유 및 필요성
+이번 프로젝트를 하면서 처음 리덕스를 사용해봤습니다.
+
+React Native에서는 전역 상태 관리가 중요한 역할을 하는 것으로 알고 있습니다.
+
+### 📌 왜 전역 상태 관리(Redux)가 필요한가?
+
+#### 1️⃣ iOS와 달리 React Native는 React Navigation을 사용하여 화면을 이동
+  - iOS에서는 각 화면이 독립적으로 동작하지만, React Native에서는 React Navigation을 통해 화면을 이동합니다.
+  - 이때, 상태가 전역에서 유지되지 않으면 화면을 이동할 때마다 데이터가 초기화되는 문제가 발생할 수 있습니다.
+
+#### 2️⃣ API 재호출 최소화
+  - 전역 상태 관리가 없으면, 매번 화면이 다시 마운트될 때마다 API를 다시 호출해야 할 수 있습니다.
+  - Redux를 사용하면 필요한 데이터만 저장하고 유지할 수 있어 불필요한 API 호출을 줄일 수 있습니다.
+
+#### 3️⃣ Prop Drilling 문제 해결
+  - Prop Drilling이란 부모 컴포넌트에서 자식 컴포넌트로 데이터를 전달할 때, 중간 단계의 컴포넌트들이 불필요하게 props를 전달해야 하는 문제입니다.
+  - Redux를 사용하면 전역 상태에서 데이터를 가져오기 때문에, 불필요한 props 전달 없이 필요한 곳에서만 데이터를 사용할 수 있습니다.
+
+#### 4️⃣ useState만 사용하면, 불필요한 리렌더링 발생
+  - 컴포넌트 내부에서 useState를 사용하여 상태를 관리하면, 상태 변경 시 해당 컴포넌트와 모든 자식 컴포넌트가 불필요하게 리렌더링될 수 있습니다.
+  - Redux를 사용하면 필요한 부분만 상태를 구독하도록 최적화할 수 있어 성능이 개선됩니다.
+
+<br>
+
+### 📌 Redux를 선택한 이유
+
+#### 1️⃣ 리클(원본 앱)에서도 Redux를 사용하고 있음
+  - 원래 리클 앱에서도 Redux를 사용하고 있었기 때문에, 사이드 프로젝트에서도 동일한 상태 관리 방식을 적용하는 것이 적절하다고 판단했습니다.
+
+#### 2️⃣ Redux를 먼저 익히면, 다른 상태 관리 라이브러리 학습이 쉬워짐
+  - React Native에는 Redux 외에도 Recoil, Zustand, Jotai, MobX 등 다양한 상태 관리 라이브러리가 존재합니다.
+  - 하지만, Redux를 먼저 익히면 전역 상태 관리의 개념을 깊이 이해할 수 있고, 다른 라이브러리도 쉽게 익힐 수 있다고 생각하여 Redux를 먼저 선택하게 되었습니다.
+
+<br>
+
+### ✅ Redux Toolkit을 사용한 이유
+
+React Native에서 상태 관리는 필수적이며, 이번 프로젝트에서는 Redux보다 **Redux Toolkit(RTK)**을 선택하였습니다.
+1. 코드 구조가 간결해짐 → createSlice를 사용해 액션과 리듀서를 한 파일에서 정의 가능
+2. 불변성 관리가 편리함 → Immer가 내장되어 있어 불변성을 신경 쓰지 않고 직관적으로 상태 변경 가능
+3. 설정이 쉬움 → Redux DevTools 및 미들웨어가 자동으로 설정되어 디버깅이 편리함
+4. 비동기 상태 관리 지원 → createAsyncThunk를 사용하면 API 요청 상태(pending, fulfilled, rejected)를 간단하게 관리 가능(아직 사용해보진 않았음)
+
+<br>
+
+### ✅ Reanimated를 사용한 이유
+처음에는 기본 Animated를 사용하려 했으나, Shadow2 라이브러리와 함께 사용 시 리렌더링 이슈가 발생하여 Reanimated를 추가하였습니다.
+1. JS 스레드가 아닌 UI 스레드에서 애니메이션 실행 → 성능 최적화
+2. 기본 Animated와 다르게 useNativeDriver를 적극적으로 활용 가능 → 부드러운 애니메이션 구현
+3. 컴포넌트가 다시 렌더링될 때 애니메이션이 끊기는 문제 해결
+4. 특히, Shadow2와 함께 사용했을 때 불필요한 리렌더링 방지
+
+
+
+<br>
+<br>
+
+## 🌟 추가된 기능
+
+### 1️⃣ 홈 화면에 재활용 OX 퀴즈 기능 추가
+
+
+
+
+https://github.com/user-attachments/assets/dece1171-9bef-4290-a99e-eb87728079d6
+
+
+
+
+
+**목적**:
+- 사용자들이 환경 보호에 대한 관심을 가지도록 유도
+- 앱의 재미 요소를 추가하여 유저 리텐션 증가
+
+**설명**:
+- 홈 화면 최상단에 OX 퀴즈를 배치
+- 일정 시간마다 새로운 퀴즈가 출제됨
+- 정답을 맞히면 보상을 지급하는 방식도 고려 가능
+
+<br>
+
+### 2️⃣ 수거 완료 후 포토 리뷰 알림 기능 추가
+
+
+
+https://github.com/user-attachments/assets/c4f327c3-676f-4695-965b-2dfcee798251
+
+
+
+**목적**:
+- 사용자들에게 본인이 기부한 옷이 어떻게 활용되는지 알림
+- 사용자들에게 환경 보호에 대한 뿌듯함을 제공하여 서비스 충성도 강화
+
+**설명**:
+- 사용자가 옷을 수거 요청하면 완료 처리됨
+- 이후 해당 옷이 다른 사용자에게 전달되고 포토 리뷰가 등록되면 원래 수거한 사용자에게 알림 발송
+
+<br>
+<br>
+
+## 🎯 기능 추가의 배경
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/aa3a5140-0d70-4de9-9074-e7a03f182608" width="300">
+  <img src="https://github.com/user-attachments/assets/2661e36d-8a98-4956-89dd-a4f6b18926ec" width="300">
+</p>
+
+리클 앱 내의 리뷰를 분석해보면, 많은 사용자들이 **"환경 보호에 기여해서 기분 좋다"** 등의 뿌듯함을 주요 가치로 느끼고 있었습니다.
+
+이를 기반으로 두 가지 기능을 추가하면 좋은 효과를 낼 수 있다고 판단하였습니다:
+### 1. **포토 리뷰 알림 기능**
+  - 사용자가 본인이 수거한 옷이 어떻게 활용되는지 알게 됨으로써, 지속적으로 서비스를 이용할 동기를 부여
+  - 기존 리클 앱에서 이와 관련된 기능이 있는지 확인하기 위해 고객센터에 직접 문의했지만, 현재는 제공되지 않는다는 답변을 받았습니다. (문의 내용은 아래 스크린샷 참고)
+  - 이를 바탕으로, 해당 기능을 직접 구현하면 사용자 경험을 더욱 향상시킬 수 있다고 판단하여 추가
+
+#### 📌 고객센터 문의 내용 (스크린샷 첨부)
+
+<img src="https://github.com/user-attachments/assets/687456e2-7e1b-479e-8682-4415edd3f8cf" width="300">
+
+
+### 2. **OX 퀴즈 기능**
+  - 환경에 대한 관심을 자연스럽게 유도하고, 앱을 더 흥미롭게 만들어 유저 리텐션 증가
+  - 단순한 정보 제공이 아닌 재미 요소를 추가하여, 사용자가 앱을 더 자주 방문하도록 유도
+
+
+
+<br>
+<br>
+
+## 🚀 기대 효과 및 향후 개선점
+
+### ✅ 기대 효과
+- OX 퀴즈 기능 추가로 사용자들이 환경 문제를 더욱 쉽게 접할 수 있음
+- 포토 리뷰 알림 기능을 통해 사용자들이 서비스에 더욱 애착을 가질 수 있음
+- 리텐션(재방문율) 증가 및 자연스러운 커뮤니티 형성
+
+### ❌ 단점 및 개선점
+- 퀴즈 기능이 지속적으로 운영되려면 문제 데이터베이스 구축 및 관리가 필요함
+- 포토 리뷰 알림 기능이 기존 리클 시스템과 원활하게 연동되도록 추가적인 API 설계 필요
+
+<br>
+<br>
+
+## 📥 실행 방법
 
 ```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+// 프로젝트 디렉토리로 이동
+yarn install  # 의존성 설치
+yarn start    # 개발 서버 실행
+yarn android  # 안드로이드 실행
+cd ios && pod install && cd .. && yarn ios # iOS 실행 (맥OS 필요)
 ```
 
-### iOS
+<br>
+<br>
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## 마무리
+처음으로 React Native를 사용하여 프로젝트를 진행하면서, 기존 iOS 개발과는 다른 상태 관리 방식, 네이티브 연동, 애니메이션 최적화 등을 경험할 수 있었습니다.
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+특히, Redux를 활용한 전역 상태 관리, Reanimated를 활용한 성능 최적화, React Navigation을 통한 화면 전환 등을 직접 구현하며 React Native의 핵심 개념을 빠르게 익힐 수 있었습니다.
 
-```sh
-bundle install
-```
+또한, 단순한 클론 프로젝트가 아니라 리클 서비스의 주요 가치(환경 보호, 사용자 경험 강화)를 고려하여 기능을 설계한 점에서 더욱 의미 있는 프로젝트였습니다.
 
-Then, and every time you update your native dependencies, run:
+이번 경험을 바탕으로 앞으로도 React Native 환경에서도 깊이 있는 개발을 이어가고 싶으며, 지속적으로 성장하는 개발자가 되겠습니다.
 
-```sh
-bundle exec pod install
-```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
 
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
