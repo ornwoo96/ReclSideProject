@@ -41,12 +41,12 @@ React Native CLI 기반으로 개발되었으며, iOS 및 Android에서 동작�
 📦 ReCl-Side-Project (src)
 ├── assets               # 이미지, 아이콘, 폰트 등 정적 리소스
 ├── components           # 재사용 가능한 UI 컴포넌트
-├── hooks               # 커스텀 훅 관리
+├── hooks               # React Native에서 재사용 가능한 기능을 위한 커스텀 훅 모음
 ├── models              # 데이터 모델 및 타입 정의
 ├── navigation          # 앱 내비게이션 설정
 ├── screens             # 각 화면 컴포넌트
 ├── services/local      # 로컬 서비스 (알림 등)
-├── store               # Redux 상태 관리
+├── store               # Redux Toolkit의 createSlice를 활용한 상태 관리 로직
 ├── styles              # 글로벌 스타일 관리
 ├── utils               # 유틸리티 함수 모음
 └── App.tsx             # 메인 엔트리 포인트
@@ -63,7 +63,7 @@ React Native에서는 전역 상태 관리가 중요한 역할을 하는 것으�
 
 ### 📌 왜 전역 상태 관리(Redux)가 필요한가?
 
-#### 1️⃣ iOS와 달리 React Native는 React Navigation을 사용하여 화면을 이동
+#### 1️⃣ iOS와 달리 React Native는 React Navigation을 사용하여 화면을 전환
   - iOS에서는 각 화면이 독립적으로 동작하지만, React Native에서는 React Navigation을 통해 화면을 이동합니다.
   - 이때, 상태가 전역에서 유지되지 않으면 화면을 이동할 때마다 데이터가 초기화되는 문제가 발생할 수 있습니다.
 
@@ -94,17 +94,17 @@ React Native에서는 전역 상태 관리가 중요한 역할을 하는 것으�
 
 ### ✅ Redux Toolkit을 사용한 이유
 
-React Native에서 상태 관리는 필수적이며, 이번 프로젝트에서는 Redux보다 **Redux Toolkit(RTK)**을 선택하였습니다.
+Redux의 복잡성을 줄이기 위해 Redux Toolkit(RTK)을 선택하였습니다.
 1. 코드 구조가 간결해짐 → createSlice를 사용해 액션과 리듀서를 한 파일에서 정의 가능
 2. 불변성 관리가 편리함 → Immer가 내장되어 있어 불변성을 신경 쓰지 않고 직관적으로 상태 변경 가능
 3. 설정이 쉬움 → Redux DevTools 및 미들웨어가 자동으로 설정되어 디버깅이 편리함
-4. 비동기 상태 관리 지원 → createAsyncThunk를 사용하면 API 요청 상태(pending, fulfilled, rejected)를 간단하게 관리 가능(아직 사용해보진 않았음)
+4. 비동기 상태 관리 지원 → createAsyncThunk를 사용하면 API 요청 상태(pending, fulfilled, rejected)를 간단하게 관리 가능(이번 프로젝트에서는 사용하지 않았지만, 추후 활용할 예정)
 
 <br>
 
 ### ✅ Reanimated를 사용한 이유
 처음에는 기본 Animated를 사용하려 했으나, Shadow2 라이브러리와 함께 사용 시 리렌더링 이슈가 발생하여 Reanimated를 추가하였습니다.
-1. JS 스레드가 아닌 UI 스레드에서 애니메이션 실행 → 성능 최적화
+1. Reanimated는 JS 스레드가 아닌 UI 스레드에서 애니메이션을 실행하기 때문에 성능이 크게 향상됩니다.
 2. 기본 Animated와 다르게 useNativeDriver를 적극적으로 활용 가능 → 부드러운 애니메이션 구현
 3. 컴포넌트가 다시 렌더링될 때 애니메이션이 끊기는 문제 해결
 4. 특히, Shadow2와 함께 사용했을 때 불필요한 리렌더링 방지
